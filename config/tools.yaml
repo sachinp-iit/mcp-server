@@ -1,0 +1,9 @@
+tools:
+  postgres_select:
+    operation: SELECT
+  postgres_insert:
+    operation: INSERT
+  postgres_update:
+    operation: UPDATE
+  postgres_delete:
+    operation: DELETE

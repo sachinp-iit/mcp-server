@@ -1,0 +1,150 @@
+meta:
+  domain: "nlp"
+  owner: "platform-engineering"
+  environment: "production"        # production | staging | dev | testing
+  schema_version: "1.0"
+  governance_model: "centralized"  # centralized | federated
+  audit_enabled: true              # true | false
+  change_control: true             # true | false
+  created: "2026-01-22"
+  last_updated: "2026-01-22"
+
+prompts:
+
+  classify_intent:
+    id: "intent-classifier-v1"
+    name: "SQL Intent Classifier"
+    version: "1.0.0"
+    author: "system"
+
+    lifecycle:
+      state: "active"              # active | testing | deprecated | disabled
+      stage: "production"          # production | staging | dev | testing
+      approved: true               # true | false
+      approved_by: "ai-governance" # team | role | system
+      approval_date: "2026-01-22"
+      change_ticket: "AI-REQ-0001"
+      rollback_version: "0.9.0"
+      change_type: "initial-release" # initial-release | patch | policy-change | rollback
+      risk_level: "low"              # low | medium | high | critical
+
+    compliance:
+      pii: false                   # true | false
+      gdpr: compliant              # compliant | non-compliant | not-applicable
+      hipaa: false                 # true | false
+      data_retention: "none"       # none | transient | short-term | long-term
+      jurisdiction: "global"       # global | eu | us | apac | custom
+      logging_allowed: true        # true | false
+      training_allowed: false      # true | false
+      audit_required: true         # true | false
+
+    observability:
+      tracing: true                # true | false
+      metrics: true                # true | false
+      logging: true                # true | false
+      sampling_rate: 1.0           # 0.0 - 1.0
+      trace_level: "full"          # none | minimal | standard | full
+      redact_inputs: false         # true | false
+      redact_outputs: false        # true | false
+      correlation_id: true         # true | false
+
+    model_policy:
+      model: "gpt-5-mini"          # gpt-5-mini | gpt-5 | gpt-4.1 | custom
+      temperature: 0.2             # 0.0 - 1.0
+      reasoning_effort: "low"      # low | medium | high
+      verbosity: "medium"          # low | medium | high
+      deterministic: true          # true | false
+
+    contract:
+      input: ["input"]
+      output: "single_token_uppercase"
+      type: "classification"       # classification | extraction | routing | validation
+
+    template: |
+      Classify the user request into exactly one operation:
+      INSERT, SELECT, UPDATE, DELETE
+
+      User request:
+      {input}
+
+      Rules:
+      - One word only
+      - Uppercase
+      - No explanation
+
+
+  generate_sql:
+    id: "sql-generator-v1"
+    name: "PostgreSQL SQL Generator"
+    version: "1.1.0"
+    author: "system"
+
+    lifecycle:
+      state: "active"              # active | testing | deprecated | disabled
+      stage: "production"          # production | staging | dev | testing
+      approved: true               # true | false
+      approved_by: "ai-governance"
+      approval_date: "2026-01-22"
+      change_ticket: "AI-REQ-0002"
+      rollback_version: "1.0.0"
+      change_type: "policy-hardening" # initial-release | patch | policy-change | rollback
+      risk_level: "medium"            # low | medium | high | critical
+
+    compliance:
+      pii: false                   # true | false
+      gdpr: compliant              # compliant | non-compliant | not-applicable
+      hipaa: false                 # true | false
+      data_retention: "none"       # none | transient | short-term | long-term
+      jurisdiction: "global"       # global | eu | us | apac | custom
+      logging_allowed: true        # true | false
+      training_allowed: false      # true | false
+      audit_required: true         # true | false
+
+    observability:
+      tracing: true                # true | false
+      metrics: true                # true | false
+      logging: true                # true | false
+      sampling_rate: 1.0           # 0.0 - 1.0
+      trace_level: "full"          # none | minimal | standard | full
+      redact_inputs: false         # true | false
+      redact_outputs: false        # true | false
+      correlation_id: true         # true | false
+
+    model_policy:
+      model: "gpt-5-mini"          # gpt-5-mini | gpt-5 | gpt-4.1 | custom
+      temperature: 0.2             # 0.0 - 1.0
+      reasoning_effort: "low"      # low | medium | high
+      verbosity: "medium"          # low | medium | high
+      deterministic: true          # true | false
+
+    contract:
+      input: ["input", "schema"]
+      output: "single_sql_statement"
+      type: "generation"           # generation | transformation | validation
+
+    constraints:
+      dialect: "postgresql"        # postgresql | mysql | sqlite | mssql
+      deterministic: true          # true | false
+      allow_offset: false          # true | false
+      allow_multi_statement: false # true | false
+      allow_subqueries: true       # true | false
+
+    template: |
+      Generate exactly ONE valid PostgreSQL SQL statement.
+
+      Schema:
+      {schema}
+
+      User request:
+      {input}
+
+      Rules:
+      - Use ONLY columns from schema
+      - Never invent IDs
+      - ALWAYS use ORDER BY when using LIMIT
+      - ORDER BY must be deterministic (e.g. salary DESC, id ASC)
+      - If user asks for "top N", include LIMIT N
+      - Do NOT use OFFSET
+      - No explanation
+      - No markdown
+      - No trailing semicolon

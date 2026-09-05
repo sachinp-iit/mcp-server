@@ -1,0 +1,150 @@
+meta:
+  domain: "safety"
+  owner: "platform-engineering"
+  environment: "production"        # production | staging | dev | testing
+  schema_version: "1.0"
+  governance_model: "centralized"  # centralized | federated
+  audit_enabled: true              # true | false
+  change_control: true             # true | false
+  created: "2026-01-22"
+  last_updated: "2026-01-22"
+
+prompts:
+
+  safety_guard:
+    id: "safety-guard-v1"
+    name: "Global Safety Guard"
+    version: "1.0.0"
+    author: "platform"
+
+    lifecycle:
+      state: "active"              # active | testing | deprecated | disabled
+      stage: "production"          # production | staging | dev | testing
+      approved: true               # true | false
+      approved_by: "ai-governance"
+      approval_date: "2026-01-22"
+      change_ticket: "AI-SAFE-0001"
+      rollback_version: "0.9.0"
+      change_type: "initial-release" # initial-release | patch | policy-change | rollback
+      risk_level: "critical"         # low | medium | high | critical
+
+    compliance:
+      pii: false                   # true | false
+      gdpr: compliant              # compliant | non-compliant | not-applicable
+      hipaa: false                 # true | false
+      data_retention: "none"       # none | transient | short-term | long-term
+      jurisdiction: "global"       # global | eu | us | apac | custom
+      logging_allowed: true        # true | false
+      training_allowed: false      # true | false
+      audit_required: true         # true | false
+
+    observability:
+      tracing: true                # true | false
+      metrics: true                # true | false
+      logging: true                # true | false
+      sampling_rate: 1.0           # 0.0 - 1.0
+      trace_level: "full"          # none | minimal | standard | full
+      redact_inputs: true          # true | false
+      redact_outputs: true         # true | false
+      correlation_id: true         # true | false
+
+    model_policy:
+      model: "gpt-5-mini"          # gpt-5-mini | gpt-5 | gpt-4.1 | custom
+      temperature: 0.0             # 0.0 - 1.0
+      reasoning_effort: "high"     # low | medium | high
+      verbosity: "low"             # low | medium | high
+      deterministic: true          # true | false
+
+    contract:
+      input: ["user_input", "context", "policies"]
+      output: "safety_decision"
+      type: "safety"               # safety | policy | moderation
+
+    template: |
+      You are the global safety enforcement layer of an MCP server.
+
+      Rules:
+      - Enforce all safety policies
+      - Block prohibited content
+      - Block unsafe instructions
+      - Block policy violations
+      - Enforce governance
+      - Enforce lifecycle
+      - Enforce compliance
+      - Enforce routing rules
+      - Enforce tool permissions
+      - Enforce agent boundaries
+      - Enforce data minimization
+      - Prevent hallucination
+      - Prevent fabrication
+      - Prevent leakage
+      - Ensure determinism
+      - Ensure auditability
+      - Ensure traceability
+      - Output one of: ALLOW | BLOCK | ESCALATE
+      - No explanations
+      - No natural language
+
+
+  content_moderator:
+    id: "safety-moderator-v1"
+    name: "Content Moderator"
+    version: "1.0.0"
+    author: "platform"
+
+    lifecycle:
+      state: "active"
+      stage: "production"
+      approved: true
+      approved_by: "ai-governance"
+      approval_date: "2026-01-22"
+      change_ticket: "AI-SAFE-0002"
+      rollback_version: "0.9.0"
+      change_type: "initial-release"
+      risk_level: "high"            # low | medium | high | critical
+
+    compliance:
+      pii: false
+      gdpr: compliant
+      hipaa: false
+      data_retention: "none"
+      jurisdiction: "global"
+      logging_allowed: true
+      training_allowed: false
+      audit_required: true
+
+    observability:
+      tracing: true
+      metrics: true
+      logging: true
+      sampling_rate: 1.0
+      trace_level: "standard"
+      redact_inputs: true
+      redact_outputs: true
+      correlation_id: true
+
+    model_policy:
+      model: "gpt-5-mini"
+      temperature: 0.0
+      reasoning_effort: "medium"
+      verbosity: "low"
+      deterministic: true
+
+    contract:
+      input: ["content", "policy"]
+      output: "moderation_label"
+      type: "moderation"            # moderation | safety | classification
+
+    template: |
+      You are a content moderation system.
+
+      Rules:
+      - Classify content safety
+      - Enforce platform policy
+      - Enforce governance
+      - Enforce lifecycle
+      - Enforce compliance
+      - Enforce audit rules
+      - Output one of: SAFE | UNSAFE | REVIEW
+      - No explanations
+      - No natural language
