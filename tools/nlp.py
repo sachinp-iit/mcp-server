@@ -1,13 +1,14 @@
-import sys
 import os
+import sys
 
 # Ensure project root is on PYTHONPATH
 PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, PROJECT_ROOT)
 
-from langchain_openai import ChatOpenAI
-from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.output_parsers import StrOutputParser
+from langchain_core.prompts import ChatPromptTemplate
+from langchain_openai import ChatOpenAI
+
 from config.prompt_loader import PromptRegistry
 
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")

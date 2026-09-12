@@ -1,6 +1,7 @@
-from env_loader import *
 from mcp.server.fastmcp import FastMCP
-from tools import postgres, nlp, registry, files
+
+from env_loader import *
+from tools import files, nlp, postgres, registry
 
 # Create MCP instance
 mcp = FastMCP("production-mcp")

@@ -1,5 +1,7 @@
 import os
+
 from fastapi import Header, HTTPException, status
+
 
 def require_api_key(x_api_key: str = Header(...)):
     expected = os.getenv("API_KEY")

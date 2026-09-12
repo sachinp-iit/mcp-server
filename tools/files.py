@@ -1,5 +1,6 @@
 import os
 
+
 def register(mcp):
     @mcp.tool()
     def list_files(path: str = ".") -> list:

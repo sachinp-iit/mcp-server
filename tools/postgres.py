@@ -1,4 +1,5 @@
 import os
+
 import psycopg2
 
 # Hard block dangerous SQL
@@ -29,12 +30,11 @@ class PostgresExecutor:
     # Function to execute Postgresql Queries which are valid and not blocked queries
     def execute(self, query: str):
         validate_sql(query)
-        with psycopg2.connect(self.conn_str) as conn:
-            with conn.cursor() as cur:
-                cur.execute(query)
-                if cur.description:
-                    return cur.fetchall()
-                return {"rows_affected": cur.rowcount}
+        with psycopg2.connect(self.conn_str) as conn, conn.cursor() as cur:
+            cur.execute(query)
+            if cur.description:
+                return cur.fetchall()
+            return {"rows_affected": cur.rowcount}
             
 # Function to fetch entire postgresql metadata
 def fetch_schema_metadata():
@@ -44,10 +44,9 @@ def fetch_schema_metadata():
     WHERE table_schema = 'public'
     ORDER BY table_name, ordinal_position;
     """
-    with psycopg2.connect(os.getenv("NEON_DB_URL")) as conn:
-        with conn.cursor() as cur:
-            cur.execute(sql)
-            return cur.fetchall()
+    with psycopg2.connect(os.getenv("NEON_DB_URL")) as conn, conn.cursor() as cur:
+        cur.execute(sql)
+        return cur.fetchall()
 
 # Function to register tools i.e. creating a toolset
 def register(mcp):
@@ -75,4 +74,4 @@ def execute_sql(query: str):
     return _get_executor().execute(query)
 
 def get_schema():
-    return fetch_schema()
+    return fetch_schema_metadata()

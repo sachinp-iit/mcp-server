@@ -1,10 +1,11 @@
 import inspect
+
 from fastapi import APIRouter, Depends
 from pydantic import create_model
+
 from auth import require_api_key
 from logging_config import audit_logger
-
-from tools import postgres, nlp, registry, files
+from tools import files, nlp, postgres, registry
 
 router = APIRouter(
     dependencies=[Depends(require_api_key)]

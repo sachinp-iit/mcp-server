@@ -1,5 +1,6 @@
-from dotenv import load_dotenv
 import os
+
+from dotenv import load_dotenv
 
 # Retrieve the base file path on which .env file is stored
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))

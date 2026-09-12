@@ -3,11 +3,45 @@ name = "mcp-server"
 version = "0.1.0"
 requires-python = ">=3.13"
 dependencies = [
+    # MCP / server
     "fastapi>=0.141.1",
-    "langchain-openai>=1.6.0",
+    "python-dotenv>=1.2.3",
     "mcp[cli]<2",
+
+    # Configuration
+    "pydantic-settings",
+
+    # Langchain
+    "langchain",
+    "langchain-openai>=1.6.0",
+    "langchain-community",
+    "langchain-text-splitters",
+    "langchain-huggingface",
+    "langchain_qdrant",
+
+    # OpenRouter
+    "openai",
+
+    # Embedding/reranking
+    "sentence-transformers",
+    "torch",
+
+    # Hybrid retrieval
+    "rank-bm25",
+    
+    # Vector Database
+    "qdrant-client",
+
+    # Prompt templates"
+    "jinja2",
+
+    # Extra dependencies
     "psycopg2-binary>=2.9.12",
     "python-dotenv>=1.2.3",
     "pyyaml>=6.0.3",
     "uvicorn>=0.52.4",
+    "ruff",
 ]
+
+# Command: uv sync
+# Command to compile our entire project: uv run ruff check . --fix

@@ -1,6 +1,6 @@
 import logging
-from logging.handlers import RotatingFileHandler
 import os
+from logging.handlers import RotatingFileHandler
 
 LOG_FILE = os.path.join(os.getcwd(), "audit.log")
 

@@ -1,6 +1,7 @@
 import os
+from typing import Any
+
 import yaml
-from typing import Dict, Any
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 PROMPT_DIR = os.path.join(BASE_DIR, "config", "prompts")
@@ -17,8 +18,8 @@ class PromptRegistry:
 
     def __init__(self, enforce_lifecycle: bool = True):
         self.enforce_lifecycle = enforce_lifecycle
-        self.prompts: Dict[str, Any] = {}
-        self.meta: Dict[str, Any] = {}
+        self.prompts: dict[str, Any] = {}
+        self.meta: dict[str, Any] = {}
         self._load_all()
 
     def _load_all(self):
@@ -38,7 +39,7 @@ class PromptRegistry:
             file_prompts = data.get("prompts", {})
 
             if not isinstance(file_prompts, dict):
-                raise ValueError(f"Invalid prompt structure in {file}")
+               raise TypeError(f"Invalid prompt structure in {file}")
 
             # merge
             for name, prompt in file_prompts.items():
@@ -48,7 +49,7 @@ class PromptRegistry:
 
             self.meta[file] = file_meta
 
-    def get(self, name: str) -> Dict[str, Any]:
+    def get(self, name: str) -> dict[str, Any]:
         if name not in self.prompts:
             raise KeyError(f"Prompt '{name}' not found in registry")
 

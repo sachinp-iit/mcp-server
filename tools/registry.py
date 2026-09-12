@@ -1,5 +1,7 @@
 import os
+
 import yaml
+
 
 def load_registry():
     path = os.getenv("TOOLS_YAML_PATH")
