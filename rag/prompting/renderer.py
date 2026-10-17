@@ -13,8 +13,9 @@ _environment = Environment(
     lstrip_blocks=True,
 )
 
+
 def renderer_prompt(template_name: str, **varaibles: object) -> str:
     """Render a Jinja2 prompt template with strict variable checking."""
-    
+
     template = _environment.get_template(template_name)
     return template.render(**varaibles)

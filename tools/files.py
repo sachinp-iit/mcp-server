@@ -7,5 +7,6 @@ def register(mcp):
         """List files in a directory."""
         return os.listdir(path)
 
+
 def list_files(path: str = ".") -> list:
     return os.listdir(path)

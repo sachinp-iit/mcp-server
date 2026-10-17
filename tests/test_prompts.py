@@ -12,9 +12,11 @@ registry = PromptRegistry(enforce_lifecycle=False)
 
 EXPERIMENT_PROMPTS = {"ab_test_router", "prompt_evaluator"}
 
+
 def test_registry_loads():
     prompts = registry.list_prompts()
     assert len(prompts) > 0
+
 
 def test_lifecycle_state():
     for name in registry.list_prompts():
@@ -27,10 +29,12 @@ def test_lifecycle_state():
         else:
             assert state == "active"
 
+
 def test_approval():
     for name in registry.list_prompts():
         p = registry.get(name)
         assert p["lifecycle"]["approved"] is True
+
 
 def test_environment():
     for name in registry.list_prompts():
@@ -43,6 +47,7 @@ def test_environment():
         else:
             assert stage == "production"
 
+
 def test_compliance_schema():
     for name in registry.list_prompts():
         p = registry.get(name)
@@ -52,6 +57,7 @@ def test_compliance_schema():
         assert "logging_allowed" in c
         assert "training_allowed" in c
         assert "audit_required" in c
+
 
 def test_observability_schema():
     for name in registry.list_prompts():
@@ -63,6 +69,7 @@ def test_observability_schema():
         assert "sampling_rate" in o
         assert "trace_level" in o
 
+
 def test_model_policy_schema():
     for name in registry.list_prompts():
         p = registry.get(name)
@@ -72,6 +79,7 @@ def test_model_policy_schema():
         assert "reasoning_effort" in m
         assert "deterministic" in m
 
+
 def test_contract_schema():
     for name in registry.list_prompts():
         p = registry.get(name)
@@ -79,6 +87,7 @@ def test_contract_schema():
         assert "input" in c
         assert "output" in c
         assert "type" in c
+
 
 def test_template_exists():
     for name in registry.list_prompts():

@@ -6,6 +6,7 @@ import yaml
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 PROMPT_DIR = os.path.join(BASE_DIR, "config", "prompts")
 
+
 class PromptRegistry:
     """
     Enterprise-grade prompt registry
@@ -39,7 +40,7 @@ class PromptRegistry:
             file_prompts = data.get("prompts", {})
 
             if not isinstance(file_prompts, dict):
-               raise TypeError(f"Invalid prompt structure in {file}")
+                raise TypeError(f"Invalid prompt structure in {file}")
 
             # merge
             for name, prompt in file_prompts.items():
@@ -64,9 +65,7 @@ class PromptRegistry:
                 )
 
             if lifecycle.get("approved") is not True:
-                raise RuntimeError(
-                    f"[PROMPT BLOCKED] '{name}' not approved"
-                )
+                raise RuntimeError(f"[PROMPT BLOCKED] '{name}' not approved")
 
             if lifecycle.get("stage") != "production":
                 raise RuntimeError(

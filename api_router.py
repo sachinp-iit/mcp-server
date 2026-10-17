@@ -4,6 +4,7 @@ from tools import registry
 
 router = APIRouter()
 
+
 @router.post("/registry/create")
 def create_record(key: str, value: str):
     return registry.create_record(key, value)
@@ -27,4 +28,3 @@ def delete_record(key: str):
 @router.get("/registry/list")
 def list_records():
     return registry.list_records()
-

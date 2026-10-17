@@ -3,16 +3,13 @@ import os
 import psycopg2
 
 # Hard block dangerous SQL
-BLOCKED_SQL_KEYWORDS = {
-    "DROP",
-    "TRUNCATE",
-    "ALTER"
-}
+BLOCKED_SQL_KEYWORDS = {"DROP", "TRUNCATE", "ALTER"}
+
 
 # Function to validate incoming postgresql queries against the Blocked Keyword
 def validate_sql(sql: str):
     sql_upper = sql.upper()
-    
+
     # Check whether the blocked keywords are part of any postgresql query
     for keyword in BLOCKED_SQL_KEYWORDS:
         if keyword in sql_upper:
@@ -35,7 +32,8 @@ class PostgresExecutor:
             if cur.description:
                 return cur.fetchall()
             return {"rows_affected": cur.rowcount}
-            
+
+
 # Function to fetch entire postgresql metadata
 def fetch_schema_metadata():
     sql = """
@@ -47,6 +45,7 @@ def fetch_schema_metadata():
     with psycopg2.connect(os.getenv("NEON_DB_URL")) as conn, conn.cursor() as cur:
         cur.execute(sql)
         return cur.fetchall()
+
 
 # Function to register tools i.e. creating a toolset
 def register(mcp):
@@ -62,7 +61,9 @@ def register(mcp):
     def get_schema():
         return fetch_schema_metadata()
 
+
 _executor = None
+
 
 def _get_executor():
     global _executor
@@ -70,8 +71,10 @@ def _get_executor():
         _executor = PostgresExecutor()
     return _executor
 
+
 def execute_sql(query: str):
     return _get_executor().execute(query)
+
 
 def get_schema():
     return fetch_schema_metadata()

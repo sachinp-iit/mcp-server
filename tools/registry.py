@@ -13,6 +13,7 @@ def load_registry():
 
     return data["tools"]
 
+
 def register(mcp):
     registry_data = load_registry()
 
@@ -23,13 +24,16 @@ def register(mcp):
                 return tool_name
         raise ValueError(f"No tool registered for intent: {intent}")
 
+
 _registry_cache = None
+
 
 def _get_registry():
     global _registry_cache
     if _registry_cache is None:
         _registry_cache = load_registry()
     return _registry_cache
+
 
 def resolve_tool_by_intent(intent: str) -> str:
     registry_data = _get_registry()

@@ -1,18 +1,18 @@
 from mcp.server.fastmcp import FastMCP
 
 from env_loader import *
-from tools import files, nlp, postgres, registry
+from tools import files, nlp, postgres, rag, registry
 
-# Create MCP instance
-mcp = FastMCP("production-mcp")
+mcp = FastMCP("rag-mcp-server")
 
-# Register tools
+# Register existing tools.
 postgres.register(mcp)
 nlp.register(mcp)
 registry.register(mcp)
 files.register(mcp)
 
+# Register transcript RAG tools.
+rag.register(mcp)
+
 if __name__ == "__main__":
-    mcp.settings.host = "127.0.0.1"
-    mcp.settings.port = 9898
     mcp.run(transport="sse")
