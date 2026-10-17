@@ -11,7 +11,7 @@ def load_transcript(path: str | Path) -> Document:
     if not file_path.is_file():
         raise ValueError(f"Transcript not found: {file_path}")
 
-    if not file_path.suffix.lower() != ".txt":
+    if file_path.suffix.lower() != ".txt":
         raise ValueError(f"Only .txt files are supported: {file_path}")
 
     content = file_path.read_text(encoding="utf-8")

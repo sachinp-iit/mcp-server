@@ -42,7 +42,7 @@ class BM25Retriever:
 
         self.documents = documents
 
-        corpus = [self._tokenize(Document.page_content) for document in self.documents]
+        corpus = [self._tokenize(document.page_content) for document in self.documents]
 
         self.index = BM25Okapi(corpus)
 
